@@ -1,10 +1,10 @@
 CC = gcc
-CFLAGS = -std=c99 -O3
+CFLAGS = -std=c99 -O2
 
-2.out: 2 2.in
-	./2 < 2.in > 2.out
+%.out: % %.in
+	./$* < ./$*.in > ./$*.out
 
-diff: 2.out 2.correct
-	diff 2.out 2.correct
+%.diff: %.out %.correct
+	diff ./$*.out ./$*.correct
 
 
