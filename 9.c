@@ -3,7 +3,7 @@ int main()
 {
   int x;
   int score = 0;
-  scanf("%d",&x);
+  scanf("%d", &x);
   if (x <= 0)
     score = -100;
   else {
@@ -11,7 +11,7 @@ int main()
       score += 3;
     if (x % 5 == 0)
       score += 5;
-    if (x < 200 && x > 100)
+    if (x <= 200 && x >= 100)
       score += 50;
     else
       score -= 50;
