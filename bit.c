@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
+uint16_t get(uint64_t n64, int i)
+{
+  return (n64 >> (48 - i * 16)) & (((uint64_t)1 << 16) - 1);
+}
+
 int main()
 {
   uint32_t i = 1, j = 2, k = 3, l = 4;
@@ -27,5 +32,9 @@ int main()
   printf("%lx\n", n64 >> 16 & mask64);
   printf("%lx\n", n64 >> 0 & mask64);
 
+  printf("use get\n");
+  for (int i = 0; i < 4; i++)
+    printf("%x\n", get(n64, i));
+  
   return 0;
 }
