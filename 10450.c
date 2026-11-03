@@ -1,38 +1,71 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+typedef struct {
+  int x;
+  int y;
+} Point;
+
+typedef struct {
+  int dx;
+  int dy;
+} Vector;
+
+Point readPoint()
+{
+  Point p;
+  scanf("%d%d", &(p.x), &(p.y));
+  return p;
+}
+
+void writePoint(Point p)
+{
+  printf("(%d, %d)\n", p.x, p.y);
+}
+
+Vector computeVector(Point a, Point b)
+{
+  Vector v = {b.x - a.x, b.y - a.y};
+  return v;
+}
+
+void writeVector(Vector v)
+{
+    printf("(%d, %d)\n", v.dx, v.dy);
+}
+
+int length(Vector v)
+{
+  return v.dx * v.dx + v.dy * v.dy;
+}
+
+bool parallel(Vector v, Vector w)
+{
+  return v.dx * w.dy == v.dy * w. dx;
+}
+
 int main()
 {
-  int ax, ay, bx, by, cx, cy, dx, dy;
-  
-  scanf("%d%d%d%d%d%d%d%d", &ax, &ay, &bx, &by, &cx, &cy, &dx, &dy);
-#ifdef DEBUG
-  printf("%d %d %d %d %d %d %d %d\n", ax, ay, bx, by, cx, cy, dx, dy);
-#endif
-  int ab = (ax - bx) * (ax - bx) + (ay - by) * (ay - by);
-  int bc = (bx - cx) * (bx - cx) + (by - cy) * (by - cy);
-  int cd = (cx - dx) * (cx - dx) + (cy - dy) * (cy - dy);
-  int da = (dx - ax) * (dx - ax) + (dy - ay) * (dy - ay);
-  int ac = (ax - cx) * (ax - cx) + (ay - cy) * (ay - cy);
-  int bd = (bx - dx) * (bx - dx) + (by - dy) * (by - dy);
+  Point a = readPoint();
+  Point b = readPoint();
+  Point c = readPoint();
+  Point d = readPoint();
 
-  bool ab_cd_same = ab == cd;
-  bool bc_da_same = bc == da;
+  Vector ab = computeVector(a, b);
+  Vector bc = computeVector(b, c);
+  Vector cd = computeVector(c, d);
+  Vector da = computeVector(d, a);
+  Vector ac = computeVector(a, c);
+  Vector bd = computeVector(b, d);
+
+  bool ab_cd_same = length(ab) == length(cd);
+  bool bc_da_same = length(bc) == length(da);
   bool db_same = ab_cd_same && bc_da_same;
-  bool four_same = db_same && (ab == bc);
-  bool diag_same = ac == bd;
+  bool four_same = db_same && (length(ab) == length(bc));
+  bool diag_same = length(ac) == length(bd);
 
-  int dyab = ay - by;
-  int dxab = ax - bx;
-  int dydc = dy - cy;
-  int dxdc = dx - cx;
-  bool abdc_parallel = dyab * dxdc == dydc * dxab;
-
-  int dybc = by - cy;
-  int dxbc = bx - cx;
-  int dyad = ay - dy;
-  int dxad = ax - dx;
-  bool bcad_parallel = dybc * dxad == dyad * dxbc;
+  bool abdc_parallel = parallel(ab, cd);
+  bool bcad_parallel = parallel(bc, da);
   
   if (db_same) {
     if (four_same) {
@@ -52,6 +85,7 @@ int main()
     else
       printf("6\n");
   }
+
   
   return 0;
 }
